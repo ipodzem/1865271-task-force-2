@@ -1,7 +1,7 @@
 # Личный проект «TaskForce»
 
 * Студент: [Irina Podzemelnaya](https://up.htmlacademy.ru/yii/2/user/1865271).
-* Наставник: `Неизвестно`.
+* Наставник: [Александр Смиркин](https://htmlacademy.ru/profile/id1411277).
 
 ---
 
