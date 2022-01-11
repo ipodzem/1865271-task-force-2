@@ -3,7 +3,7 @@
     "type": "project",
     "autoload": {
         "psr-4": {
-            "taskforce\\": "src/"
+          "HtmlAcademy\\": "src/"
         }
     },
     "authors": [

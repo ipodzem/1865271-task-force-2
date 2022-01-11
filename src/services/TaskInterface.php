@@ -1,5 +1,7 @@
 <?php
 
+namespace HtmlAcademy\services;
+
 interface TaskInterface
 {
     const STATUS_NEW     = 'new';
