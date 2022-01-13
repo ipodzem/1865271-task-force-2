@@ -1,6 +1,6 @@
 <?php
 require(__DIR__.'/vendor/autoload.php');
-use HtmlAcademy\services\Task;
+use Taskforce\services\Task;
 function assert_failure($file, $line, $assertion, $message)
 {
     echo "Проверка $assertion провалена: $message";
