@@ -1,5 +1,6 @@
 <?php
-
+require(__DIR__.'/vendor/autoload.php');
+use Taskforce\services\Task;
 function assert_failure($file, $line, $assertion, $message)
 {
     echo "Проверка $assertion провалена: $message";
@@ -13,7 +14,7 @@ assert_options(ASSERT_WARNING,  false);
 assert_options(ASSERT_CALLBACK, 'assert_failure');
 
 
-include(dirname(__FILE__).'/models/Task.php');
+
 $task = new Task(1, 1);
 assert($task->getNextStatus('cancel_action') == Task::STATUS_CANCEL, 'cancel_action');
 assert($task->getNextStatus('agree_action') == Task::STATUS_PROCESS, 'agree_action');
