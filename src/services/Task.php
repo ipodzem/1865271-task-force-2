@@ -1,5 +1,6 @@
 <?php
-    include('TaskInterface.php');
+    namespace Taskforce\services;
+    //include('TaskInterface.php');
     class Task implements TaskInterface
     {
 
@@ -7,13 +8,13 @@
         private $executor_id = '';
         private $customer_id = '';
 
-        public function __construct($executor_id, $customer_id) {
+        public function __construct(int $executor_id, int $customer_id) {
             //todo validation??
             $this->executor_id = $executor_id;
             $this->customer_id = $customer_id;
         }
 
-        public function getStatusMap($status)
+        public function getStatusMap(string $status)
         {
             $map = [
                 self::STATUS_NEW => [self::STATUS_CANCEL, self::STATUS_PROCESS],
@@ -22,7 +23,7 @@
             return $map[$status];
         }
 
-        public function getActionMap($status, $type)
+        public function getActionMap(string $status, string $type)
         {
              $actions = [
                  self::STATUS_NEW => [
@@ -37,7 +38,7 @@
              return $actions[$status][$type];
         }
 
-        public function getNextStatus($action)
+        public function getNextStatus(string $action)
         {
             $action_to_status = [
                 self::ACTION_CANCEL  => self::STATUS_CANCEL,
@@ -48,7 +49,7 @@
             return $action_to_status[$action];
         }
 
-        public function getStatusName($status)
+        public function getStatusName(string $status)
         {
              $statuses = [
                  self::STATUS_NEW     => 'Новый',
@@ -60,7 +61,7 @@
              return $statuses[$status];
         }
 
-        public function getActionName($action)
+        public function getActionName(string $action)
         {
              $actions = [
                  self::ACTION_FAIL    => 'Отказаться',

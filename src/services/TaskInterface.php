@@ -1,5 +1,7 @@
 <?php
 
+namespace Taskforce\services;
+
 interface TaskInterface
 {
     const STATUS_NEW     = 'new';
