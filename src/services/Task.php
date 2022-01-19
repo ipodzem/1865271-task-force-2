@@ -1,17 +1,17 @@
 <?php
     namespace Taskforce\services;
-    //include('TaskInterface.php');
+
     class Task implements TaskInterface
     {
 
         private $current_status = '';
         private $executor_id = '';
-        private $customer_id = '';
+        private $owner_id = '';
 
-        public function __construct(int $executor_id, int $customer_id) {
+        public function __construct(int $executor_id, int $owner_id) {
             //todo validation??
             $this->executor_id = $executor_id;
-            $this->customer_id = $customer_id;
+            $this->owner_id = $owner_id;
         }
 
         public function getStatusMap(string $status)
@@ -25,17 +25,26 @@
 
         public function getActionMap(string $status, string $type)
         {
-             $actions = [
+            $actions = [
                  self::STATUS_NEW => [
-                     'customer' => [self::ACTION_CANCEL],
-                     'executor' => [self::ACTION_AGREE]
+                     self::TYPE_CUSTOMER => [Task::ACTION_CANCEL => new CancelAction],
+                     self::TYPE_EXECUTOR => [Task::ACTION_AGREE => new AgreeAction]
                  ],
                  self::STATUS_PROCESS => [
-                     'customer' => [self::ACTION_SUCCESS],
-                     'executor' => [self::ACTION_FAIL]
+                     self::TYPE_CUSTOMER => [Task::ACTION_SUCCESS => new SuccessAction],
+                     self::TYPE_EXECUTOR => [Task::ACTION_FAIL => new FailAction]
                  ]
              ];
              return $actions[$status][$type];
+        }
+
+        public function checkAction(string $status, string $type, int $user_id, string $action){
+            $actions = $this->getActionMap($status, $type);
+            if (isset($actions[$action]))
+                return $actions[$action]->checkAccess($this->executor_id, $this->owner_id, $user_id);
+            else
+                return false;
+
         }
 
         public function getNextStatus(string $action)
