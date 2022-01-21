@@ -14,8 +14,7 @@
             $this->owner_id = $owner_id;
         }
 
-        public function getStatusMap(string $status)
-        {
+        public function getStatusMap(string $status) : array {
             $map = [
                 self::STATUS_NEW => [self::STATUS_CANCEL, self::STATUS_PROCESS],
                 self::STATUS_PROCESS => [self::STATUS_SUCCESS, self::STATUS_FAIL]
@@ -23,43 +22,26 @@
             return $map[$status];
         }
 
-        public function getActionMap(string $status, string $type)
-        {
+        public function getActionMap(string $status, string $type) : object{
             $actions = [
                  self::STATUS_NEW => [
-                     self::TYPE_CUSTOMER => [Task::ACTION_CANCEL => new CancelAction],
-                     self::TYPE_EXECUTOR => [Task::ACTION_AGREE => new AgreeAction]
+                     self::TYPE_CUSTOMER => new CancelAction,
+                     self::TYPE_EXECUTOR => new AgreeAction
                  ],
                  self::STATUS_PROCESS => [
-                     self::TYPE_CUSTOMER => [Task::ACTION_SUCCESS => new SuccessAction],
-                     self::TYPE_EXECUTOR => [Task::ACTION_FAIL => new FailAction]
+                     self::TYPE_CUSTOMER => new SuccessAction,
+                     self::TYPE_EXECUTOR => new FailAction
                  ]
              ];
              return $actions[$status][$type];
         }
 
-        public function checkAction(string $status, string $type, int $user_id, string $action){
-            $actions = $this->getActionMap($status, $type);
-            if (isset($actions[$action]))
-                return $actions[$action]->checkAccess($this->executor_id, $this->owner_id, $user_id);
-            else
-                return false;
-
+        public function checkAction(string $status, string $type, int $user_id) : bool {
+            $action = $this->getActionMap($status, $type);
+            return $action->checkAccess($this->executor_id, $this->owner_id, $user_id);
         }
 
-        public function getNextStatus(string $action)
-        {
-            $action_to_status = [
-                self::ACTION_CANCEL  => self::STATUS_CANCEL,
-                self::ACTION_AGREE   => self::STATUS_PROCESS,
-                self::ACTION_SUCCESS => self::STATUS_SUCCESS,
-                self::ACTION_FAIL    => self::STATUS_FAIL
-            ];
-            return $action_to_status[$action];
-        }
-
-        public function getStatusName(string $status)
-        {
+        public function getStatusName(string $status) : string {
              $statuses = [
                  self::STATUS_NEW     => 'Новый',
                  self::STATUS_FAIL    => 'Провален',
@@ -70,14 +52,11 @@
              return $statuses[$status];
         }
 
-        public function getActionName(string $action)
-        {
-             $actions = [
-                 self::ACTION_FAIL    => 'Отказаться',
-                 self::ACTION_SUCCESS => 'Завершить',
-                 self::ACTION_AGREE   => 'Откликнуться',
-                 self::ACTION_CANCEL  => 'Отменить'
-             ];
-             return $actions[$action];
+        public function getNextStatus(string $status, string $type, int $user_id) : string {
+            $action = $this->getActionMap($status, $type);
+            if ($action->checkAccess($this->executor_id, $this->owner_id, $user_id)) {
+                return $action->getNextStatus();
+            }
+            return false;
         }
     }

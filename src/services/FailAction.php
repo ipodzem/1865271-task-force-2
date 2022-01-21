@@ -1,16 +1,23 @@
 <?php
     namespace Taskforce\services;
 
-    class FailAction extends TaskAction {
+    class FailAction extends AbstractAction {
 
-        public function getName() {
+        public function getName() : string {
             return 'Отказаться от задания';
         }
-        public function getInnerName() {
+
+        public function getInnerName() : string {
             return Task::ACTION_FAIL;
 
         }
-        public function checkAccess(int $executor_id, int $owner_id, int $user_id) {
+
+        public function checkAccess(int $executor_id, int $owner_id, int $user_id) : bool {
             return ($executor_id == $user_id);
         }
+
+        public function getNextStatus() : string {
+            return Task::STATUS_FAIL;
+        }
+
     }

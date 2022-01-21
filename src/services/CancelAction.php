@@ -1,16 +1,20 @@
 <?php
     namespace Taskforce\services;
 
-    class CancelAction extends TaskAction {
+    class CancelAction extends AbstractAction {
 
-        public function getName() {
+        public function getName() : string {
             return 'Отменить задание';
         }
-        public function getInnerName() {
+        public function getInnerName() : string {
             return Task::ACTION_CANCEL;
 
         }
-        public function checkAccess(int $executor_id, int $owner_id, int $user_id) {
+        public function checkAccess(int $executor_id, int $owner_id, int $user_id) : bool {
             return ($owner_id == $user_id);
+        }
+
+        public function getNextStatus() : string {
+            return Task::STATUS_CANCEL;
         }
     }

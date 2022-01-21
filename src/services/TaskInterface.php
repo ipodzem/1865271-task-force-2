@@ -23,13 +23,12 @@ interface TaskInterface
 
     public function __construct(int $executor_id, int $customer_id);
 
-    public function getStatusMap(string $status);
+    public function getStatusMap(string $status) : array;
 
-    public function getActionMap(string $status, string $type);
+    public function getActionMap(string $status, string $type) : object;
 
-    public function getNextStatus(string $action);
+    public function getStatusName(string $status) : string;
 
-    public function getStatusName(string $status);
+    public function getNextStatus(string $status, string $type, int $user_id) : string;
 
-    public function getActionName(string $action);
 }
