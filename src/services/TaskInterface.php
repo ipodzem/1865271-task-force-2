@@ -11,12 +11,6 @@ interface TaskInterface
     const STATUS_SUCCESS = 'success';
     const STATUS_ARCHIVE = 'archive';
 
-    const ACTION_CANCEL  = 'cancel_action';
-    const ACTION_AGREE   = 'agree_action';
-    const ACTION_SUCCESS = 'success_action';
-    const ACTION_FAIL    = 'fail_action';
-    const ACTION_ARCHIVE = 'archive_action';
-
     CONST TYPE_CUSTOMER  = 'customer';
     CONST TYPE_EXECUTOR  = 'executor';
 
