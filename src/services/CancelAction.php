@@ -6,10 +6,7 @@
         public function getName() : string {
             return 'Отменить задание';
         }
-        public function getInnerName() : string {
-            return Task::ACTION_CANCEL;
-
-        }
+        
         public function checkAccess(int $executor_id, int $owner_id, int $user_id) : bool {
             return ($owner_id == $user_id);
         }

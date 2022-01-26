@@ -21,13 +21,13 @@ assert($task->getNextStatus(Task::STATUS_PROCESS, Task::TYPE_EXECUTOR, 2) == Tas
 assert($task->getNextStatus(Task::STATUS_PROCESS, Task::TYPE_CUSTOMER, 1) == Task::STATUS_SUCCESS, 'success_action');
 
 //Задание в статусе «Новое» можно отменить, но сделать это может только автор задания.
-assert($task->checkAction(Task::STATUS_NEW, Task::TYPE_CUSTOMER, 1) == true, 'Cancel task by owner');
+assert($task->checkAction(Task::STATUS_NEW, Task::TYPE_CUSTOMER, 1) , 'Cancel task by owner');
 //Задание в статусе «В работе» может иметь действие «Отказаться», но сделать это может только пользователь, чей ID совпадает с ID исполнителя задания;
-assert($task->checkAction(Task::STATUS_PROCESS, Task::TYPE_EXECUTOR, 2) == true, 'Fail task by executor');
+assert($task->checkAction(Task::STATUS_PROCESS, Task::TYPE_EXECUTOR, 2), 'Fail task by executor');
 //Задание в статусе «В работе» может иметь действие «Завершить», но сделать это может только пользователь, чей ID совпадает с ID автора задания;
-assert($task->checkAction(Task::STATUS_PROCESS, Task::TYPE_CUSTOMER, 1) == true,  'Finish task by owner');
+assert($task->checkAction(Task::STATUS_PROCESS, Task::TYPE_CUSTOMER, 1),  'Finish task by owner');
 //Провалена проверка для попытки отменить задание не его автором
-assert($task->checkAction(Task::STATUS_NEW, Task::TYPE_CUSTOMER, 2) == true, 'Cancel task by owner');
+assert($task->checkAction(Task::STATUS_NEW, Task::TYPE_CUSTOMER, 2), 'Cancel task by owner');
 
 
 

@@ -19,7 +19,7 @@ interface TaskInterface
 
     public function getStatusMap(string $status) : array;
 
-    public function getActionMap(string $status, string $type) : object;
+    public function getActionMap(string $status, string $type) : AbstractAction;
 
     public function getStatusName(string $status) : string;
 

@@ -22,7 +22,7 @@
             return $map[$status];
         }
 
-        public function getActionMap(string $status, string $type) : object{
+        public function getActionMap(string $status, string $type) : AbstractAction{
             $actions = [
                  self::STATUS_NEW => [
                      self::TYPE_CUSTOMER => new CancelAction,

@@ -7,10 +7,6 @@
             return 'Задание выполнено';
         }
 
-        public function getInnerName() : string {
-            return Task::ACTION_AGREE;
-        }
-
         public function checkAccess(int $executor_id, int $owner_id, int $user_id) : bool {
             return ($owner_id == $user_id);
         }

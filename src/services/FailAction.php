@@ -7,11 +7,6 @@
             return 'Отказаться от задания';
         }
 
-        public function getInnerName() : string {
-            return Task::ACTION_FAIL;
-
-        }
-
         public function checkAccess(int $executor_id, int $owner_id, int $user_id) : bool {
             return ($executor_id == $user_id);
         }
