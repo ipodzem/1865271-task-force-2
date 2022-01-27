@@ -14,15 +14,14 @@ interface TaskInterface
     CONST TYPE_CUSTOMER  = 'customer';
     CONST TYPE_EXECUTOR  = 'executor';
 
+    public function __construct(int $executor_id, int $customer_id, string $status);
 
-    public function __construct(int $executor_id, int $customer_id);
+    public function getStatusMap() : array;
 
-    public function getStatusMap(string $status) : array;
+    public function getActionMap(string $type) : AbstractAction;
 
-    public function getActionMap(string $status, string $type) : AbstractAction;
+    public function getStatusName() : string;
 
-    public function getStatusName(string $status) : string;
-
-    public function getNextStatus(string $status, string $type, int $user_id) : string;
+    public function getNextStatus(string $type, int $user_id) : string;
 
 }
