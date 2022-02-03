@@ -2,7 +2,7 @@
 
 namespace Taskforce\exceptions;
 
-class TaskException extends \Exception
+class FileException extends \Exception
 {
 
 }

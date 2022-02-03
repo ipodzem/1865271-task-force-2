@@ -1,16 +1,16 @@
 {
-    "name": "academy/taskforce",
-    "type": "project",
-    "autoload": {
-        "psr-4": {
-          "Taskforce\\": "src/"
-        }
-    },
-    "authors": [
-        {
-            "name": "Irina Podzemelnaya",
-            "email": "ipodzemelnaya@gmail.com"
-        }
-    ],
-    "require": {}
+  "name": "academy/taskforce",
+  "type": "project",
+  "autoload": {
+    "psr-4": {
+      "Taskforce\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "Irina Podzemelnaya",
+      "email": "ipodzemelnaya@gmail.com"
+    }
+  ],
+  "require": {}
 }
