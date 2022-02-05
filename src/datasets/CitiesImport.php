@@ -11,16 +11,16 @@ class CitiesImport extends Import
 
     public function __construct()
     {
-        $this->filename = $_SERVER['DOCUMENT_ROOT'] . self::filename;
+        $this->filename = realpath(dirname(__FILE__)."/../..") . self::filename;
         $this->tablename = self::tablename;
     }
 
-    public function getCsvColumns()
+    public function getCsvColumns(): array
     {
         return ['name', 'lat', 'long'];
     }
 
-    public function getDbColumns()
+    public function getDbColumns(): array
     {
         return ['name' => 'name', 'lat' => 'lat', 'long' => 'long', 'country_id' => '1'];
     }

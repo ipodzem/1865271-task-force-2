@@ -2,32 +2,31 @@
 
 namespace Taskforce\datasets;
 
-class Import
+abstract class Import
 {
     const filename = '';
     const tablename = '';
-    private $data;
     public $filename;
     public $tablename;
 
-    public function getCsvColumns()
+    public function getCsvColumns(): array
     {
         return ['name'];
     }
 
-    public function getDbColumns()
+    public function getDbColumns(): array
     {
         return ['name' => 'name'];
     }
 
-    private function convertCsvToArray()
+    private function convertCsvToArray(): array
     {
-        $service = new Csvtosql($this->filename, $this->getCsvColumns());
+        $service = new CsvtoSql($this->filename, $this->getCsvColumns());
         $service->import();
         return $service->getData();
     }
 
-    public function sql()
+    public function sql(): string
     {
         $values = [];
         $add_default_values = false;
@@ -54,7 +53,6 @@ class Import
                     }
                 }
             }
-            //$values[] = "(" . implode(", ", array_map('mysqli_real_escape_string', $row)) . ")";
             if (count($row) == count($db_columns_values)) {
                 $values[] = "('" . implode("', '", $row) . "')";
             }

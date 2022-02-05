@@ -11,16 +11,16 @@ class RatingsImport extends Import
 
     public function __construct()
     {
-        $this->filename = $_SERVER['DOCUMENT_ROOT'] . self::filename;
+        $this->filename = realpath(dirname(__FILE__)."/../..") . self::filename;
         $this->tablename = self::tablename;
     }
 
-    public function getCsvColumns()
+    public function getCsvColumns(): array
     {
         return ['dt_add', 'rate', 'description'];
     }
 
-    public function getDbColumns()
+    public function getDbColumns(): array
     {
         return ['created' => 'dt_add', 'rating' => 'rate', 'comment' => 'description', 'response_id' => 'random10'];
     }

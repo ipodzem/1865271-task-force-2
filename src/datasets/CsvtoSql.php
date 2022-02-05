@@ -4,7 +4,7 @@ namespace Taskforce\datasets;
 
 use Taskforce\exceptions\FileException;
 
-class Csvtosql
+class CsvtoSql
 {
     private $filename;
     private $columns;
