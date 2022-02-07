@@ -60,8 +60,6 @@ abstract class Import
 
         $united_values = implode(", ", $values);
 
-        $sql = "INSERT INTO `" . $this->tablename . "`($columns) VALUES $united_values;";
-
-        return $sql;
+        return "INSERT INTO `" . $this->tablename . "`($columns) VALUES $united_values;";
     }
 }

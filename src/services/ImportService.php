@@ -9,31 +9,52 @@ use Taskforce\datasets\TasksImport;
 use Taskforce\datasets\ProfilesImport;
 use Taskforce\datasets\RepliesImport;
 use Taskforce\datasets\RatingsImport;
+use Taskforce\exceptions\BaseException;
 
 class ImportService
 {
-    function generateSqlFiles(string $path)
+    public static function generateSqlFiles(string $path): void
     {
-        $cats = new CategoriesImport();
-        file_put_contents($path . 'cats.sql', $cats->sql());
+        $data = [
+            'users' => [
+                'model' => new UsersImport(),
+                'file' => 'users.sql'
+            ],
+            'cats' => [
+                'model' => new CategoriesImport(),
+                'file' => 'cats.sql'
+            ],
+            'cities' => [
+                'model' => new CitiesImport(),
+                'file' => 'cities.sql'
+            ],
+            'tasks' => [
+                'model' => new TasksImport(),
+                'file' => 'tasks.sql'
+            ],
+            'profiles' => [
+                'model' => new ProfilesImport(),
+                'file' => 'profiles.sql'
+            ],
+            'replies' => [
+                'model' => new RepliesImport,
+                'file' => 'replies.sql'
+            ],
+            'ratings' => [
+                'model' => new RatingsImport,
+                'file' => 'rate.sql'
+            ],
+        ];
 
-        $users = new UsersImport();
-        file_put_contents($path . 'users.sql', $users->sql());
-
-        $cities = new CitiesImport();
-        file_put_contents($path . 'cities.sql', $cities->sql());
-
-        $tasks = new TasksImport();
-        file_put_contents($path . 'tasks.sql', $tasks->sql());
-
-        $profiles = new ProfilesImport();
-        file_put_contents($path . 'profiles.sql', $profiles->sql());
-
-        $replies = new RepliesImport();
-        file_put_contents($path . 'replies.sql', $replies->sql());
-
-        $ratings = new RatingsImport();
-        file_put_contents($path . 'rate.sql', $ratings->sql());
+        foreach ($data as $info) {
+            if (!ImportService::saveTo($info['model'], $info ['file'], $path)) {
+                throw BaseException('Problem with generating '.$info['file']);
+            }
+        }
+    }
+    private static function saveTo($model, string $file, string $path): bool
+    {
+        return (file_put_contents($path . $file, $model->sql()));
     }
 
 }
