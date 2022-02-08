@@ -3,12 +3,12 @@
 namespace Taskforce\services;
 
 use Taskforce\exceptions\BaseException;
-
+use Taskforce\datasets\Import;
 class ImportService
 {
     private $model;
 
-    public function __construct($model)
+    public function __construct(Import $model)
     {
         $this->model = $model;
     }
