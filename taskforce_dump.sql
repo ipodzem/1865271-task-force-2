@@ -1,8 +1,14 @@
+-- --------------------------------------------------------
 
-CREATE TABLE `categories` (
-                            `id` int NOT NULL,
-                            `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                            `icon` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
+--
+-- Структура таблицы `categories`
+--
+
+CREATE TABLE `categories`
+(
+  `id`   int                                                     NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `icon` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -11,10 +17,13 @@ CREATE TABLE `categories` (
 -- Структура таблицы `cities`
 --
 
-CREATE TABLE `cities` (
-                        `id` int NOT NULL,
-                        `name` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                        `country_id` int NOT NULL
+CREATE TABLE `cities`
+(
+  `id`         int                                                     NOT NULL,
+  `name`       varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `country_id` int                                                     NOT NULL,
+  `lat`        float                                                   NOT NULL,
+  `long`       float                                                   NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -23,10 +32,18 @@ CREATE TABLE `cities` (
 -- Структура таблицы `countries`
 --
 
-CREATE TABLE `countries` (
-                           `id` int NOT NULL,
-                           `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
+CREATE TABLE `countries`
+(
+  `id`   int                                                     NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Дамп данных таблицы `countries`
+--
+
+INSERT INTO `countries` (`id`, `name`)
+VALUES (1, 'Россия');
 
 -- --------------------------------------------------------
 
@@ -34,9 +51,10 @@ CREATE TABLE `countries` (
 -- Структура таблицы `executor_categories`
 --
 
-CREATE TABLE `executor_categories` (
-                                     `user_id` int NOT NULL,
-                                     `category_id` int NOT NULL
+CREATE TABLE `executor_categories`
+(
+  `user_id`     int NOT NULL,
+  `category_id` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -45,12 +63,31 @@ CREATE TABLE `executor_categories` (
 -- Структура таблицы `executor_photos`
 --
 
-CREATE TABLE `executor_photos` (
-                                 `id` int NOT NULL,
-                                 `user_id` int NOT NULL,
-                                 `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                                 `description` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                                 `path` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
+CREATE TABLE `executor_photos`
+(
+  `id`          int                                                     NOT NULL,
+  `user_id`     int                                                     NOT NULL,
+  `name`        varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `description` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `path`        varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `profiles`
+--
+
+CREATE TABLE `profiles`
+(
+  `id`      int                                  NOT NULL,
+  `user_id` int                                  NOT NULL,
+  `photo`   varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `address` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `bd`      date                                 NOT NULL,
+  `about`   text COLLATE utf8_unicode_ci         NOT NULL,
+  `phone`   varchar(15) COLLATE utf8_unicode_ci  NOT NULL,
+  `skype`   varchar(255) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -59,11 +96,13 @@ CREATE TABLE `executor_photos` (
 -- Структура таблицы `ratings`
 --
 
-CREATE TABLE `ratings` (
-                         `id` int NOT NULL,
-                         `response_id` int NOT NULL,
-                         `rating` tinyint NOT NULL,
-                         `comment` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
+CREATE TABLE `ratings`
+(
+  `id`          int       NOT NULL,
+  `response_id` int       NOT NULL,
+  `rating`      tinyint   NOT NULL,
+  `comment`     text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `created`     timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -84,12 +123,14 @@ CREATE TABLE `regions` (
 -- Структура таблицы `responses`
 --
 
-CREATE TABLE `responses` (
-                           `id` int NOT NULL,
-                           `task_id` int NOT NULL,
-                           `user_id` int NOT NULL,
-                           `amount` int NOT NULL,
-                           `text` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
+CREATE TABLE `responses`
+(
+  `id`      int       NOT NULL,
+  `task_id` int       NOT NULL,
+  `user_id` int       NOT NULL,
+  `amount`  int       NOT NULL,
+  `text`    text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `created` timestamp NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -98,22 +139,23 @@ CREATE TABLE `responses` (
 -- Структура таблицы `tasks`
 --
 
-CREATE TABLE `tasks` (
-                       `id` int NOT NULL,
-                       `user_id` int NOT NULL,
-                       `executor_id` int DEFAULT NULL,
-                       `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                       `description` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                       `budget` int NOT NULL,
-                       `term` int NOT NULL,
-                       `city_id` int NOT NULL,
-                       `address` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                       `address_comment` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                       `latitude` float NOT NULL,
-                       `longitude` float NOT NULL,
-                       `cat_id` int NOT NULL,
-                       `created` timestamp NOT NULL,
-                       `status` varchar(55) COLLATE utf8_unicode_ci NOT NULL
+CREATE TABLE `tasks`
+(
+  `id`              int                                                     NOT NULL,
+  `user_id`         int                                                     NOT NULL,
+  `executor_id`     int                                                     DEFAULT NULL,
+  `name`            varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `description`     text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `budget`          int                                                     NOT NULL,
+  `term`            date                                                    NOT NULL,
+  `city_id`         int                                                     DEFAULT NULL,
+  `address`         varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `address_comment` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `lat`             float                                                   NOT NULL,
+  `long`            float                                                   NOT NULL,
+  `category_id`     int                                                     NOT NULL,
+  `created`         timestamp                                               NOT NULL,
+  `status`          varchar(55) COLLATE utf8_unicode_ci                     NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -134,21 +176,18 @@ CREATE TABLE `task_attachments` (
 -- Структура таблицы `users`
 --
 
-CREATE TABLE `users` (
-                       `id` int NOT NULL,
-                       `email` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                       `name` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                       `photo` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-                       `surname` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
-                       `login` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                       `password` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                       `phone` varchar(15) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                       `skype` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
-                       `city_id` int DEFAULT NULL,
-                       `description` text CHARACTER SET utf8 COLLATE utf8_unicode_ci,
-                       `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                       `last_visited` timestamp NOT NULL,
-                       `type` enum('customer','executor') CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
+CREATE TABLE `users`
+(
+  `id`           int                                                     NOT NULL,
+  `email`        varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `name`         varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `surname`      varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci          DEFAULT NULL,
+  `password`     varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci  NOT NULL,
+  `city_id`      int                                                              DEFAULT NULL,
+  `description`  text CHARACTER SET utf8 COLLATE utf8_unicode_ci,
+  `created`      timestamp                                               NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `last_visited` timestamp NULL DEFAULT NULL,
+  `type`         enum('customer','executor') CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -189,6 +228,12 @@ ALTER TABLE `executor_photos`
   ADD KEY `user_id` (`user_id`);
 
 --
+-- Индексы таблицы `profiles`
+--
+ALTER TABLE `profiles`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Индексы таблицы `ratings`
 --
 ALTER TABLE `ratings`
@@ -215,7 +260,7 @@ ALTER TABLE `responses`
 --
 ALTER TABLE `tasks`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `cat_id` (`cat_id`),
+  ADD KEY `cat_id` (`category_id`),
   ADD KEY `city_id` (`city_id`),
   ADD KEY `user_id` (`user_id`);
 
@@ -252,12 +297,18 @@ ALTER TABLE `cities`
 -- AUTO_INCREMENT для таблицы `countries`
 --
 ALTER TABLE `countries`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT для таблицы `executor_photos`
 --
 ALTER TABLE `executor_photos`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT для таблицы `profiles`
+--
+ALTER TABLE `profiles`
   MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
@@ -342,7 +393,7 @@ ALTER TABLE `responses`
 -- Ограничения внешнего ключа таблицы `tasks`
 --
 ALTER TABLE `tasks`
-  ADD CONSTRAINT `tasks_ibfk_1` FOREIGN KEY (`cat_id`) REFERENCES `categories` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `tasks_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   ADD CONSTRAINT `tasks_ibfk_2` FOREIGN KEY (`city_id`) REFERENCES `cities` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   ADD CONSTRAINT `tasks_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
