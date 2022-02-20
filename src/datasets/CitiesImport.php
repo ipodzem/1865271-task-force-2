@@ -17,7 +17,7 @@ class CitiesImport extends Import
 
     public function getCsvColumns(): array
     {
-        return ['name', 'lat', 'long'];
+        return ['﻿name', 'lat', 'long'];
     }
 
     public function getDbColumns(): array
