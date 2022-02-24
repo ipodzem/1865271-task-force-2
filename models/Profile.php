@@ -57,5 +57,4 @@ class Profile extends \yii\db\ActiveRecord
             'skype' => 'Skype',
         ];
     }
-    
 }

@@ -62,5 +62,4 @@ class Raiting extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Responses::className(), ['id' => 'response_id']);
     }
-    
 }

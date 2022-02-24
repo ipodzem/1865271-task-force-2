@@ -57,5 +57,4 @@ class TaskAttachment extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Tasks::className(), ['id' => 'task_id']);
     }
-    
 }

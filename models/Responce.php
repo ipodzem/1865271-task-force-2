@@ -87,5 +87,4 @@ class Responce extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Users::className(), ['id' => 'user_id']);
     }
-    
 }

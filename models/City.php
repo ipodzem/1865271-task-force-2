@@ -84,5 +84,4 @@ class City extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Tasks::className(), ['city_id' => 'id']);
     }
-    
 }

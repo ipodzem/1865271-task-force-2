@@ -131,5 +131,4 @@ class Task extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Users::className(), ['id' => 'user_id']);
     }
-    
 }
