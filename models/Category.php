@@ -66,4 +66,5 @@ class Category extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Tasks::className(), ['category_id' => 'id']);
     }
+    
 }
