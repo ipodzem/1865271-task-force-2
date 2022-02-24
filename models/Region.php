@@ -57,4 +57,5 @@ class Region extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Cities::className(), ['id' => 'city_id']);
     }
+    
 }
