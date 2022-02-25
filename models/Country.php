@@ -10,7 +10,7 @@ use Yii;
  * @property int $id
  * @property string $name
  *
- * @property Cities[] $cities
+ * @property City[] $cities
  */
 class Country extends \yii\db\ActiveRecord
 {
@@ -51,6 +51,6 @@ class Country extends \yii\db\ActiveRecord
      */
     public function getCities()
     {
-        return $this->hasMany(Cities::className(), ['country_id' => 'id']);
+        return $this->hasMany(City::className(), ['country_id' => 'id']);
     }
 }

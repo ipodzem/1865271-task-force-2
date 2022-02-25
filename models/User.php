@@ -18,10 +18,10 @@ use Yii;
  * @property string|null $last_visited
  * @property string $type
  *
- * @property ExecutorCategories[] $executorCategories
- * @property ExecutorPhotos[] $executorPhotos
- * @property Responses[] $responses
- * @property Tasks[] $tasks
+ * @property ExecutorCategory[] $executorCategories
+ * @property ExecutorPhoto[] $executorPhotos
+ * @property Response[] $responses
+ * @property Task[] $tasks
  */
 class User extends \yii\db\ActiveRecord
 {
@@ -75,7 +75,7 @@ class User extends \yii\db\ActiveRecord
      */
     public function getExecutorCategories()
     {
-        return $this->hasMany(ExecutorCategories::className(), ['user_id' => 'id']);
+        return $this->hasMany(ExecutorCategory::className(), ['user_id' => 'id']);
     }
 
     /**
@@ -85,7 +85,7 @@ class User extends \yii\db\ActiveRecord
      */
     public function getExecutorPhotos()
     {
-        return $this->hasMany(ExecutorPhotos::className(), ['user_id' => 'id']);
+        return $this->hasMany(ExecutorPhoto::className(), ['user_id' => 'id']);
     }
 
     /**
@@ -95,7 +95,7 @@ class User extends \yii\db\ActiveRecord
      */
     public function getResponses()
     {
-        return $this->hasMany(Responses::className(), ['user_id' => 'id']);
+        return $this->hasMany(Response::className(), ['user_id' => 'id']);
     }
 
     /**
@@ -105,6 +105,6 @@ class User extends \yii\db\ActiveRecord
      */
     public function getTasks()
     {
-        return $this->hasMany(Tasks::className(), ['user_id' => 'id']);
+        return $this->hasMany(Task::className(), ['user_id' => 'id']);
     }
 }

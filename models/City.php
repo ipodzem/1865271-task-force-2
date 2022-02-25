@@ -13,9 +13,9 @@ use Yii;
  * @property float $lat
  * @property float $long
  *
- * @property Countries $country
- * @property Regions[] $regions
- * @property Tasks[] $tasks
+ * @property Country $country
+ * @property Region[] $regions
+ * @property Task[] $tasks
  */
 class City extends \yii\db\ActiveRecord
 {
@@ -37,7 +37,7 @@ class City extends \yii\db\ActiveRecord
             [['country_id'], 'integer'],
             [['lat', 'long'], 'number'],
             [['name'], 'string', 'max' => 100],
-            [['country_id'], 'exist', 'skipOnError' => true, 'targetClass' => Countries::className(), 'targetAttribute' => ['country_id' => 'id']],
+            [['country_id'], 'exist', 'skipOnError' => true, 'targetClass' => Country::className(), 'targetAttribute' => ['country_id' => 'id']],
         ];
     }
 
@@ -62,7 +62,7 @@ class City extends \yii\db\ActiveRecord
      */
     public function getCountry()
     {
-        return $this->hasOne(Countries::className(), ['id' => 'country_id']);
+        return $this->hasOne(Country::className(), ['id' => 'country_id']);
     }
 
     /**
@@ -72,7 +72,7 @@ class City extends \yii\db\ActiveRecord
      */
     public function getRegions()
     {
-        return $this->hasMany(Regions::className(), ['city_id' => 'id']);
+        return $this->hasMany(Region::className(), ['city_id' => 'id']);
     }
 
     /**
@@ -82,6 +82,6 @@ class City extends \yii\db\ActiveRecord
      */
     public function getTasks()
     {
-        return $this->hasMany(Tasks::className(), ['city_id' => 'id']);
+        return $this->hasMany(Task::className(), ['city_id' => 'id']);
     }
 }

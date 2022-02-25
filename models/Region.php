@@ -11,7 +11,7 @@ use Yii;
  * @property string $name
  * @property int $city_id
  *
- * @property Cities $city
+ * @property City $city
  */
 class Region extends \yii\db\ActiveRecord
 {
@@ -32,7 +32,7 @@ class Region extends \yii\db\ActiveRecord
             [['name', 'city_id'], 'required'],
             [['city_id'], 'integer'],
             [['name'], 'string', 'max' => 255],
-            [['city_id'], 'exist', 'skipOnError' => true, 'targetClass' => Cities::className(), 'targetAttribute' => ['city_id' => 'id']],
+            [['city_id'], 'exist', 'skipOnError' => true, 'targetClass' => City::className(), 'targetAttribute' => ['city_id' => 'id']],
         ];
     }
 
@@ -55,6 +55,6 @@ class Region extends \yii\db\ActiveRecord
      */
     public function getCity()
     {
-        return $this->hasOne(Cities::className(), ['id' => 'city_id']);
+        return $this->hasOne(City::className(), ['id' => 'city_id']);
     }
 }

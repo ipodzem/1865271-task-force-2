@@ -13,7 +13,7 @@ use Yii;
  * @property string $description
  * @property string $path
  *
- * @property Users $user
+ * @property User $user
  */
 class ExecutorPhoto extends \yii\db\ActiveRecord
 {
@@ -35,7 +35,7 @@ class ExecutorPhoto extends \yii\db\ActiveRecord
             [['user_id'], 'integer'],
             [['description'], 'string'],
             [['name', 'path'], 'string', 'max' => 255],
-            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['user_id' => 'id']],
+            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
 
@@ -60,6 +60,6 @@ class ExecutorPhoto extends \yii\db\ActiveRecord
      */
     public function getUser()
     {
-        return $this->hasOne(Users::className(), ['id' => 'user_id']);
+        return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
 }

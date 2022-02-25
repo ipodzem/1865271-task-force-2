@@ -11,8 +11,8 @@ use Yii;
  * @property string $name
  * @property string $icon
  *
- * @property ExecutorCategories[] $executorCategories
- * @property Tasks[] $tasks
+ * @property ExecutorCategory[] $executorCategories
+ * @property Task[] $tasks
  */
 class Category extends \yii\db\ActiveRecord
 {
@@ -54,7 +54,7 @@ class Category extends \yii\db\ActiveRecord
      */
     public function getExecutorCategories()
     {
-        return $this->hasMany(ExecutorCategories::className(), ['category_id' => 'id']);
+        return $this->hasMany(ExecutorCategory::className(), ['category_id' => 'id']);
     }
 
     /**
@@ -64,6 +64,6 @@ class Category extends \yii\db\ActiveRecord
      */
     public function getTasks()
     {
-        return $this->hasMany(Tasks::className(), ['category_id' => 'id']);
+        return $this->hasMany(Task::className(), ['category_id' => 'id']);
     }
 }

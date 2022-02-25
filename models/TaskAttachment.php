@@ -11,7 +11,7 @@ use Yii;
  * @property int $task_id
  * @property string $path
  *
- * @property Tasks $task
+ * @property Task $task
  */
 class TaskAttachment extends \yii\db\ActiveRecord
 {
@@ -32,7 +32,7 @@ class TaskAttachment extends \yii\db\ActiveRecord
             [['task_id', 'path'], 'required'],
             [['task_id'], 'integer'],
             [['path'], 'string', 'max' => 255],
-            [['task_id'], 'exist', 'skipOnError' => true, 'targetClass' => Tasks::className(), 'targetAttribute' => ['task_id' => 'id']],
+            [['task_id'], 'exist', 'skipOnError' => true, 'targetClass' => Task::className(), 'targetAttribute' => ['task_id' => 'id']],
         ];
     }
 
@@ -55,6 +55,6 @@ class TaskAttachment extends \yii\db\ActiveRecord
      */
     public function getTask()
     {
-        return $this->hasOne(Tasks::className(), ['id' => 'task_id']);
+        return $this->hasOne(Task::className(), ['id' => 'task_id']);
     }
 }
