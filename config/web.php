@@ -16,6 +16,14 @@ $config = [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'cO5W4jf4z-16TUW0fG8DYu72bBEwVpuk',
         ],
+        'formatter' => [
+            'class' => 'yii\i18n\Formatter',
+            'dateFormat' => 'php:d F Y',
+            'datetimeFormat' => 'php:j F, H:i',
+            'timeFormat' => 'php:H:i:s',
+            'defaultTimeZone' => 'Europe/Moscow',
+            'locale' => 'ru-RU'
+        ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
@@ -68,7 +76,7 @@ if (YII_ENV_DEV) {
     $config['modules']['gii'] = [
         'class' => 'yii\gii\Module',
         // uncomment the following to add your IP if you are not connecting from localhost.
-        //'allowedIPs' => ['127.0.0.1', '::1'],
+        'allowedIPs' => ['*'],
     ];
 }
 
