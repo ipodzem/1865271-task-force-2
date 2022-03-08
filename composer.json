@@ -31,8 +31,10 @@
         "codeception/module-yii2": "^1.0.0",
         "codeception/module-asserts": "^1.0.0"
     },
-    "psr-4": {
-      "Taskforce\\": "src/"
+    "autoload": {
+      "psr-4": {
+        "Taskforce\\": "src/"
+      }
     },
     "config": {
         "process-timeout": 1800,
