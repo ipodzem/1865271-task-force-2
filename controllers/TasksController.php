@@ -3,14 +3,15 @@
 namespace app\controllers;
 
 use app\models\Task;
-use yii\data\ActiveDataProvider;
+use app\models\Category;
+use app\models\TaskSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use Taskforce\services\Task as TaskService;
+use yii\helpers\ArrayHelper;
 
 /**
- * TasksController implements the CRUD actions for Task model.
+ * TaskController implements the CRUD actions for Task model.
  */
 class TasksController extends Controller
 {
@@ -39,12 +40,14 @@ class TasksController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Task::find()->where(['status' => TaskService::STATUS_NEW]),
-        ]);
-
+        $searchModel = new TaskSearch();
+        $dataProvider = $searchModel->search($this->request->queryParams);
+        $categories = Category::find()->all();
         return $this->render('index', [
+            'searchModel' => $searchModel,
+            'categories' => ArrayHelper::map($categories, 'id', 'name'),
             'dataProvider' => $dataProvider,
         ]);
     }
+
 }
