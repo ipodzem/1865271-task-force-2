@@ -1,13 +1,13 @@
 <?php
 
 use yii\helpers\Html;
-use yii\helpers\Url;
-use yii\grid\ActionColumn;
 use yii\widgets\ListView;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
+/* @var $searchModel  app\models\Tasksearch */
+/* @var $categories [] app\models\Category */
 
 $this->title = 'Новые задания';
 $this->params['breadcrumbs'][] = $this->title;
@@ -20,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'dataProvider' => $dataProvider,
             'layout' => '{items}',
             'itemOptions' => ['class' => 'item'],
-            'itemView' => '_task',
+            'itemView' => '_item',
             'emptyText' => 'Нет новых задач'
         ]) ?>
     </div>
@@ -31,10 +31,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 $form = ActiveForm::begin([
                     'id'      => 'filter-form',
                     'method'  => 'GET',
-                    'action' => Url::to(['tasks/index']),
-                    'options' => ['class' => 'search-form']
+                    'action' => ['index']
                 ]); ?>
-                <h4 class="head-card">Категории</h4>
+                <h4 class="head-card first-head-card">Категории</h4>
                 <div class="form-group">
                     <?= $form->field($searchModel, 'category_ids')->checkboxList($categories,  ['unselect' => null])->label('') ?>
                 </div>
@@ -47,7 +46,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 <h4 class="head-card">Период</h4>
                 <div class="form-group">
                     <?= $form->field($searchModel, 'period')->dropDownList(
-                        ['' => '', '1' => '1 час', '12' => '12 часов', '24' => '24 часа']
+                        ['' => '', '1' => '1 час', '12' => '12 часов', '24' => '24 часа'],
+                        ['prompt' => 'Любой']
                     )->label('') ?>
 
                 </div>

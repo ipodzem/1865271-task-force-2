@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use app\models\User;
 
 /**
  * This is the model class for table "users".
@@ -18,7 +19,7 @@ use Yii;
  * @property string|null $last_visited
  * @property string $type
  *
- * @property ExecutorCategory[] $executorCategories
+ * @property Category[] $Categories
  * @property ExecutorPhoto[] $executorPhotos
  * @property Response[] $responses
  * @property Task[] $tasks
@@ -43,6 +44,7 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
             [['city_id'], 'integer'],
             [['description', 'type'], 'string'],
             [['created', 'last_visited'], 'safe'],
+            [['score'], 'float'],
             [['email'], 'string', 'max' => 255],
             [['name', 'surname'], 'string', 'max' => 100],
             [['password'], 'string', 'max' => 30],
@@ -69,13 +71,90 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     }
 
     /**
+     * Gets query for Profile
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProfile()
+    {
+        return $this->hasOne(Profile::className(), ['user_id' => 'id']);
+    }
+
+    /**
+     * Gets user rating
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getRatings()
+    {
+        return $this->hasMany(Rating::className(), ['response_id' => 'id'])->viaTable('responses', ['user_id' => 'id']);
+    }
+
+    /**
+     * Gets user rating count string
+     *
+     * @return string
+     */
+    public function getRatingsCnt()
+    {
+        return Yii::t('app','{delta, plural, 0 {нет отзывов} one{# отзыв} few{# отзыва} many{# отзывов} other{# отзывов}}', ['delta' => count($this->ratings)]);
+    }
+
+
+    /**
+     * Gets score
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getScoreCalculation()
+    {
+        return $this->hasMany(Rating::className(), ['response_id' => 'id'])->viaTable('responses', ['user_id' => 'id'])->average('rating');
+    }
+
+    /**
+     * Gets place
+     *
+     * @return integer
+     */
+    public  function getPlace()
+    {
+        $users = User::find()->orderBy(['score' => SORT_DESC])->all();
+        foreach ($users as $k => $user) {
+            if ($this->id == $user->id) {
+                return $k;
+            }
+        }
+        return count($users);
+    }
+
+    /**
+     * Gets count succesfull tasks
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCountSuccessfullTasks()
+    {
+        return $this->hasMany(Rating::className(), ['response_id' => 'id'])->viaTable('responses', ['user_id' => 'id'])->andWhere(['>','rating', '0'])->count();
+    }
+
+    /**
+     * Gets count fail tasks
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCountFailTasks()
+    {
+        return $this->hasMany(Rating::className(),  ['response_id' => 'id'])->viaTable('responses', ['user_id' => 'id'])->andWhere(['rating' => '0'])->count();
+    }
+
+    /**
      * Gets query for [[ExecutorCategories]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getExecutorCategories()
+    public function getCategories()
     {
-        return $this->hasMany(ExecutorCategory::className(), ['user_id' => 'id']);
+        return $this->hasMany(Category::className(), ['id' => 'category_id'])->viaTable('executor_categories', ['user_id' => 'id']);
     }
 
     /**

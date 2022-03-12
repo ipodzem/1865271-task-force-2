@@ -2,18 +2,16 @@
 
 namespace app\controllers;
 
-use app\models\Task;
-use app\models\Category;
-use app\models\TaskSearch;
+use app\models\User;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 
 /**
- * TaskController implements the CRUD actions for Task model.
+ * UsersController implements the CRUD actions for User model.
  */
-class TasksController extends Controller
+class UsersController extends Controller
 {
     /**
      * @inheritDoc
@@ -34,24 +32,7 @@ class TasksController extends Controller
     }
 
     /**
-     * Lists all Task models.
-     *
-     * @return string
-     */
-    public function actionIndex()
-    {
-        $searchModel = new TaskSearch();
-        $dataProvider = $searchModel->search($this->request->queryParams);
-        $categories = Category::find()->all();
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'categories' => ArrayHelper::map($categories, 'id', 'name'),
-            'dataProvider' => $dataProvider,
-        ]);
-    }
-
-    /**
-     * View one Task models.
+     * View one User model.
      * @param int $id
      * @return string
      */
@@ -65,15 +46,15 @@ class TasksController extends Controller
     }
 
     /**
-     * Finds the Task model based on its primary key value.
+     * Finds the User model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param int $id ID
-     * @return Task the loaded model
+     * @return User the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Task::findOne(['id' => $id])) !== null) {
+        if (($model = User::findOne(['id' => $id])) !== null) {
             return $model;
         }
 

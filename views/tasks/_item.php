@@ -13,6 +13,6 @@ use yii\helpers\Url;
     <div class="footer-task">
         <p class="info-text town-text"><?=$model->address?></p>
         <p class="info-text category-text"><?=$model->category->name?>></p>
-        <?= Html::a('Смотреть Задание', ['update', 'id' => $model->id], ['class' => 'button button--black']) ?>
+        <?= Html::a('Смотреть Задание', ['view', 'id' => $model->id], ['class' => 'button button--black']) ?>
     </div>
 </div>
