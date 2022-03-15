@@ -57,4 +57,28 @@ class Profile extends \yii\db\ActiveRecord
             'skype' => 'Skype',
         ];
     }
+
+    /**
+     * calculate age
+     * @return integer
+     */
+    public function getAge()
+    {
+        $diff = substr(date( 'Ymd' ) - date( 'Ymd', strtotime($this->bd) ), 0, -4);
+
+        return Yii::t('app', '{delta, plural, one{# год} few{# года} many{# лет} other{# года}}', ['delta' => $diff]);
+    }
+
+    /**
+     * Prepare thumbnail for profile
+     * @return string
+     */
+    public function getThumb()
+    {
+        if ($this->photo) {
+            return $this->photo;
+        } else {
+            return '/img/man-glasses.png';
+        }
+    }
 }

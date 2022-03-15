@@ -17,7 +17,7 @@ $config = [
             'cookieValidationKey' => 'cO5W4jf4z-16TUW0fG8DYu72bBEwVpuk',
         ],
         'formatter' => [
-            'class' => 'yii\i18n\Formatter',
+            'class' => 'app\components\FormatterHelper',
             'dateFormat' => 'php:d F Y',
             'datetimeFormat' => 'php:j F, H:i',
             'timeFormat' => 'php:H:i:s',
@@ -51,14 +51,14 @@ $config = [
             ],
         ],
         'db' => $db,
-        /*
         'urlManager' => [
+            'baseUrl' => '',
             'enablePrettyUrl' => true,
             'showScriptName' => false,
-            'rules' => [
-            ],
+            'rules' => array(
+                '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>'
+            )
         ],
-        */
     ],
     'params' => $params,
 ];
