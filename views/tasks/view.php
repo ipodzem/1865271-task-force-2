@@ -1,8 +1,11 @@
 <?php
 
+use yii\widgets\ListView;
+
 /* @var $this yii\web\View */
 
 /* @var $model app\models\Task */
+/* @var $provider yii\data\ActiveDataProvider */
 
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = $this->title;
@@ -22,10 +25,13 @@ $this->params['breadcrumbs'][] = $this->title;
         <p class="map-address">Новый арбат, 23, к. 1</p>
     </div>
     <h4 class="head-regular">Отклики на задание</h4>
-    <?php
-    foreach ($model->responses as $response) {
-        echo $this->render('_response', ['model' => $response]);
-    } ?>
+    <?= ListView::widget([
+        'dataProvider' => $provider,
+        'layout' => '{items}',
+        'itemOptions' => ['class' => 'item'],
+        'itemView' => '_response',
+        'emptyText' => 'Нет откликов'
+    ]) ?>
 </div>
 <div class="right-column">
     <div class="right-card black info-card">

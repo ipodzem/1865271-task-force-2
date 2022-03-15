@@ -1,20 +1,21 @@
 <?php
 
 namespace app\components;
+use yii\helpers\Html;
 
 class CustomHelper
 {
-    public function drawScore(?float $score)
+    public static function renderScore(?float $score)
     {
-        echo '<div class="stars-rating big">';
+        echo Html::beginTag('div', ['class' => 'stars-rating big']);
         for ($i = 1; $i <= round($score); $i++) {
-            echo '<span class="fill-star">&nbsp;</span>';
+            echo Html::tag('span', '', ['class' => 'fill-star']);
         }
         if (round($score) < 5) {
             for ($i = round($score); $i < 5; $i++) {
-                echo '<span>&nbsp;</span>';
+                echo Html::tag('span', '');
             }
         }
-        echo '</div>';
+        echo Html::endTag('div');
     }
 }

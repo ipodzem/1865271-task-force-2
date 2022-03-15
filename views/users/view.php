@@ -1,9 +1,11 @@
 <?php
 
 use app\components\CustomHelper;
+use yii\widgets\ListView;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\User */
+/* @var $provider yii\data\ActiveDataProvider */
 
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = $this->title;
@@ -16,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
                  alt="Фото пользователя">
             <div class="card-rate">
                 <?php
-                echo CustomHelper::drawScore($model->score); ?>
+                CustomHelper::renderScore($model->score); ?>
                 <span class="current-rate"><?= $model->score ?></span>
             </div>
         </div>
@@ -49,10 +51,15 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
     <h4 class="head-regular">Отзывы заказчиков</h4>
-    <?php foreach($model->ratings as $rating) {
-       echo $this->render('_feedback', ['model' => $rating]);
-    }?>
-    
+    <?= ListView::widget([
+        'dataProvider' => $provider,
+        'layout' => '{items}',
+        'itemOptions' => ['class' => 'item'],
+        'itemView' => '_feedback',
+        'emptyText' => 'Нет отзывов'
+    ]) ?>
+
+
 </div>
 <div class="right-column">
     <div class="right-card black">
@@ -63,7 +70,6 @@ $this->params['breadcrumbs'][] = $this->title;
             <dt>Место в рейтинге</dt>
             <dd><?= $model->place; ?> место</dd>
             <dt>Дата регистрации</dt>
-
             <dd><?= Yii::$app->formatter->asDateTime($model->created, "php: d F Y, h:i"); ?></dd>
             <dt>Статус</dt>
             <dd>Открыт для новых заказов</dd>

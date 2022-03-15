@@ -66,7 +66,7 @@ class Profile extends \yii\db\ActiveRecord
     {
         $diff = substr(date( 'Ymd' ) - date( 'Ymd', strtotime($this->bd) ), 0, -4);
 
-        return Yii::t('app','{delta, plural, one{# год} few{# года} many{# лет} other{# года}}', ['delta' => $diff]);
+        return Yii::t('app', '{delta, plural, one{# год} few{# года} many{# лет} other{# года}}', ['delta' => $diff]);
     }
 
     /**

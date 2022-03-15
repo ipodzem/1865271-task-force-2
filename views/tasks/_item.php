@@ -1,14 +1,18 @@
 <?php
+
 use yii\helpers\Html;
-use yii\helpers\Url;
+
+/* @var $model app\models\Task */
 ?>
 <div class="task-card">
     <div class="header-task">
-        <a  href="#" class="link link--block link--big"><?=$model->name?></a>
-        <p class="price price--task"><?=$model->budget?> ₽</p>
+        <a href="#" class="link link--block link--big"><?= $model->name ?></a>
+        <p class="price price--task"><?= $model->budget ?> ₽</p>
     </div>
-    <p class="info-text"><span class="current-time"><?=Yii::$app->formatter->asRelativeTime($model->created);?> </span></p>
-    <p class="task-text"><?=$model->description?>
+    <p class="info-text"><span class="current-time"><?= Yii::$app->formatter->asRelativeTime(
+                $model->created
+            ); ?> </span></p>
+    <p class="task-text"><?= $model->description ?>
     </p>
     <div class="footer-task">
         <p class="info-text town-text"><?=$model->address?></p>

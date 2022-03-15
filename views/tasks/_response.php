@@ -10,10 +10,10 @@ use yii\helpers\Url;
     <img class="customer-photo" src="<?= $model->user->profile->thumb ?>" width="146" height="156"
          alt="Фото заказчиков">
     <div class="feedback-wrapper">
-        <a href="#" class="link link--block link--big"><?= $model->user->name ?></a>
+        <a href="<?= Url::to(['users/view/', 'id' => $model->user->id]) ?>" class="link link--block link--big"><?= $model->user->name ?></a>
         <div class="response-wrapper">
             <?php
-            echo CustomHelper::drawScore($model->user->score); ?>
+            CustomHelper::renderScore($model->user->score); ?>
             <p class="reviews"><?= $model->user->ratingsCnt ?></p>
         </div>
         <p class="response-message">

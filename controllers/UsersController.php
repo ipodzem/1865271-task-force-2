@@ -3,10 +3,11 @@
 namespace app\controllers;
 
 use app\models\User;
+use app\models\Rating;
+use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\helpers\ArrayHelper;
 
 /**
  * UsersController implements the CRUD actions for User model.
@@ -40,8 +41,13 @@ class UsersController extends Controller
     {
         $model = $this->findModel($id);
 
+        $provider = new ActiveDataProvider([
+            'query' => Rating::find()->joinWith('response')->where(['user_id' => $id])
+        ]);
+
         return $this->render('view', [
-            'model' => $model
+            'model'    => $model,
+            'provider' => $provider
         ]);
     }
 

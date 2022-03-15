@@ -23,8 +23,7 @@ use yii\helpers\Url;
         endif; ?>
     </div>
     <div class="feedback-wrapper">
-        <?php
-        echo CustomHelper::drawScore($model->rating); ?>
+        <?php CustomHelper::renderScore($model->rating); ?>
         <p class="info-text"><span class="current-time"><?= Yii::$app->formatter->asRelativeTime(
                     $model->created
                 ); ?></span></p>

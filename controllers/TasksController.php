@@ -5,10 +5,14 @@ namespace app\controllers;
 use app\models\Task;
 use app\models\Category;
 use app\models\TaskSearch;
+use app\models\Response as TaskResponse;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
+use yii\data\ActiveDataProvider;
+use yii\web\Response;
+
 
 /**
  * TaskController implements the CRUD actions for Task model.
@@ -59,8 +63,13 @@ class TasksController extends Controller
     {
         $model = $this->findModel($id);
 
+        $provider = new ActiveDataProvider([
+            'query' => TaskResponse::find()->where(['task_id' => $id])
+        ]);
+
         return $this->render('view', [
-            'model' => $model
+            'model' => $model,
+            'provider' => $provider
         ]);
     }
 
