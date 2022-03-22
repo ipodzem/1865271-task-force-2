@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "cities".
@@ -37,7 +38,13 @@ class City extends \yii\db\ActiveRecord
             [['country_id'], 'integer'],
             [['lat', 'long'], 'number'],
             [['name'], 'string', 'max' => 100],
-            [['country_id'], 'exist', 'skipOnError' => true, 'targetClass' => Country::className(), 'targetAttribute' => ['country_id' => 'id']],
+            [
+                ['country_id'],
+                'exist',
+                'skipOnError' => true,
+                'targetClass' => Country::className(),
+                'targetAttribute' => ['country_id' => 'id']
+            ],
         ];
     }
 
@@ -83,5 +90,10 @@ class City extends \yii\db\ActiveRecord
     public function getTasks()
     {
         return $this->hasMany(Task::className(), ['city_id' => 'id']);
+    }
+
+    public static function getList()
+    {
+        return ArrayHelper::map(self::find()->all(), 'id', 'name');
     }
 }

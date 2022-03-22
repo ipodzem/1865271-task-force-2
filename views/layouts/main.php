@@ -27,7 +27,8 @@ AppAsset::register($this);
             <a href='#' class="header-logo">
                 <img class="logo-image" src="/img/logotype.png" width=227 height=60 alt="taskforce">
             </a>
-            <div class="nav-wrapper">
+            <?php if(!Yii::$app->user->isGuest) {?>
+                <div class="nav-wrapper">
                 <ul class="nav-list">
                     <li class="list-item list-item--active">
                         <a class="link link--nav" >Новое</a>
@@ -43,8 +44,10 @@ AppAsset::register($this);
                     </li>
                 </ul>
             </div>
+            <?php }?>
         </nav>
-        <div class="user-block">
+        <?php if(!Yii::$app->user->isGuest) {?>
+            <div class="user-block">
             <a href="#">
                 <img class="user-photo" src="/img/man-glasses.png" width="55" height="55" alt="Аватар">
             </a>
@@ -65,6 +68,7 @@ AppAsset::register($this);
                 </div>
             </div>
         </div>
+        <?php }?>
     </header>
     <main class="main-content container">
         <?= Alert::widget() ?>

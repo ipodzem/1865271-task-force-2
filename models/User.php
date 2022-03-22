@@ -25,6 +25,7 @@ use Yii;
  */
 class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 {
+    public $password_repeat;
     /**
      * {@inheritdoc}
      */
@@ -40,13 +41,16 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     {
         return [
             [['email', 'name', 'password', 'type'], 'required'],
-            [['city_id'], 'integer'],
+            [['city_id', 'responsible'], 'integer'],
+            [['city_id'], 'exist', 'targetClass' => City::className(), 'targetAttribute' => ['city_id' => 'id']],
             [['description', 'type'], 'string'],
             [['created', 'last_visited'], 'safe'],
-            [['score'], 'float'],
-            [['email'], 'string', 'max' => 255],
+            [['score'], 'double'],
+            ['email', 'email'],
+            ['email', 'unique'],
             [['name', 'surname'], 'string', 'max' => 100],
-            [['password'], 'string', 'max' => 30],
+            [['password'], 'string', 'max' => 30, 'min' => 8],
+            ['password_repeat', 'compare', 'compareAttribute' => 'password', 'message' => "Пароли должны совпадать"],
         ];
     }
 
@@ -58,14 +62,16 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         return [
             'id' => 'ID',
             'email' => 'Email',
-            'name' => 'Name',
-            'surname' => 'Surname',
-            'password' => 'Password',
-            'city_id' => 'City ID',
-            'description' => 'Description',
+            'name' => 'Ваше имя',
+            'surname' => 'Фамилия',
+            'password' => 'Пароль',
+            'password_repeat' => 'Повтор пароля',
+            'city_id' => 'Город',
+            'description' => 'Описание',
             'created' => 'Created',
             'last_visited' => 'Last Visited',
             'type' => 'Type',
+            'responsible' => 'я собираюсь откликаться на заказы'
         ];
     }
 
@@ -94,9 +100,13 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
      *
      * @return string
      */
-    public function getRatingsCnt()
+    public function getRatingsCountLabel()
     {
-        return Yii::t('app','{delta, plural, 0 {нет отзывов} one{# отзыв} few{# отзыва} many{# отзывов} other{# отзывов}}', ['delta' => count($this->ratings)]);
+        return Yii::t(
+            'app',
+            '{delta, plural, 0 {нет отзывов} one{# отзыв} few{# отзыва} many{# отзывов} other{# отзывов}}',
+            ['delta' => count($this->ratings)]
+        );
     }
 
 
@@ -247,5 +257,12 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     public function validateAuthKey($authKey)
     {
         return $this->authKey === $authKey;
+    }
+
+    public function beforeSave($insert)
+    {
+        if (isset($this->password))
+            $this->password = Yii::$app->getSecurity()->generatePasswordHash($this->password);
+        return parent::beforeSave($insert);
     }
 }
