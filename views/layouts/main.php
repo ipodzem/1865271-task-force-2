@@ -4,7 +4,6 @@
 /* @var $content string */
 
 use app\assets\AppAsset;
-use app\widgets\Alert;
 use yii\bootstrap4\Html;
 
 AppAsset::register($this);
@@ -71,7 +70,6 @@ AppAsset::register($this);
         <?php }?>
     </header>
     <main class="main-content container">
-        <?= Alert::widget() ?>
         <?= $content ?>
     </main>
 </div>

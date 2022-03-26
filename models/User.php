@@ -25,7 +25,8 @@ use Yii;
  */
 class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 {
-    public $password_repeat;
+    public $password_field;
+
     /**
      * {@inheritdoc}
      */
@@ -40,8 +41,8 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     public function rules()
     {
         return [
-            [['email', 'name', 'password', 'type'], 'required'],
-            [['city_id', 'responsible'], 'integer'],
+            [['email', 'name', 'type'], 'required'],
+            [['city_id'], 'integer'],
             [['city_id'], 'exist', 'targetClass' => City::className(), 'targetAttribute' => ['city_id' => 'id']],
             [['description', 'type'], 'string'],
             [['created', 'last_visited'], 'safe'],
@@ -49,8 +50,7 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
             ['email', 'email'],
             ['email', 'unique'],
             [['name', 'surname'], 'string', 'max' => 100],
-            [['password'], 'string', 'max' => 30, 'min' => 8],
-            ['password_repeat', 'compare', 'compareAttribute' => 'password', 'message' => "Пароли должны совпадать"],
+            [['password_field'], 'string', 'max' => 30, 'min' => 8],
         ];
     }
 
@@ -65,13 +65,11 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
             'name' => 'Ваше имя',
             'surname' => 'Фамилия',
             'password' => 'Пароль',
-            'password_repeat' => 'Повтор пароля',
             'city_id' => 'Город',
             'description' => 'Описание',
             'created' => 'Created',
             'last_visited' => 'Last Visited',
-            'type' => 'Type',
-            'responsible' => 'я собираюсь откликаться на заказы'
+            'type' => 'Type'
         ];
     }
 
@@ -261,8 +259,8 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 
     public function beforeSave($insert)
     {
-        if (isset($this->password))
-            $this->password = Yii::$app->getSecurity()->generatePasswordHash($this->password);
+        if ($this->password_field)
+            $this->password = Yii::$app->getSecurity()->generatePasswordHash($this->password_field);
         return parent::beforeSave($insert);
     }
 }

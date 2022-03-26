@@ -3,33 +3,13 @@
 namespace app\controllers;
 
 use Yii;
-use yii\filters\AccessControl;
 use yii\web\Controller;
-use yii\web\Response;
-use yii\filters\VerbFilter;
-use app\models\LoginForm;
-use app\models\ContactForm;
 use app\models\User;
+use app\models\RegistrationForm;
 use app\models\City;
-use Taskforce\services\Task as TaskService;
 
 class RegistrationController extends Controller
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'logout' => ['post'],
-                ],
-            ],
-        ];
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -38,39 +18,32 @@ class RegistrationController extends Controller
         return [
             'error' => [
                 'class' => 'yii\web\ErrorAction',
-            ],
-            'captcha' => [
-                'class' => 'yii\captcha\CaptchaAction',
-                'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
-            ],
+            ]
         ];
     }
 
     /**
-     * Displays homepage.
+     * Displays registration form.
      *
-     * @return string
+     * @return mixed
      */
     public function actionIndex()
     {
-        $user = new User();
+        $model = new RegistrationForm();
         $cities = City::getList();
         if (Yii::$app->request->getIsPost()) {
-            $post = Yii::$app->request->post();
-            $user->load($post);
-
-            if (isset($post['User']['responsible']) && $post['User']['responsible'] == 1) {
-                $user->type = TaskService::TYPE_EXECUTOR;
-            } else {
-                $user->type = TaskService::TYPE_CUSTOMER;
-            }
-
-            if ($user->validate()) {
-                if ($user->save())
-                    return $this->redirect(['/']);
-
+            if ($model->load(Yii::$app->request->post())) {
+                $res = $model->register();
+                if ($res['success'] == true) {
+                    return $this->redirect('/');
+                } else {
+                    \Yii::$app->session->setFlash(
+                        'error',
+                        $res['msg']
+                    );
+                }
             }
         }
-        return $this->render('form', ['model' => $user, 'cities' => $cities]);
+        return $this->render('form', ['model' => $model, 'cities' => $cities]);
     }
 }

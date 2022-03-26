@@ -2,14 +2,16 @@
 
  use yii\widgets\ActiveForm;
  use yii\helpers\Html;
+use app\widgets\Alert;
 
 /* @var $model app/models/User;*/
-/* @var $cities array;*/
+/* @var City[] $cities;*/
 
-$this->title = 'TaskForce.Регистрация';
+$this->title = 'TaskForce. Регистрация';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="center-block">
+    <?= Alert::widget() ?>
     <div class="registration-form regular-form">
         <?php $form = ActiveForm::begin(['id' => 'signup-form', 'options' => ['class' => 'registration__form']]); ?>
             <h3 class="head-main head-task">Регистрация нового пользователя</h3>
@@ -18,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?= $form->field($model, 'email')->textInput() ?>
                 <?= $form->field($model, 'city_id')->dropDownList($cities, ['prompt' => '']) ?>
             </div>
-            <?= $form->field($model, 'password')->passwordInput() ?>
+            <?= $form->field($model, 'password_field')->passwordInput() ?>
             <?= $form->field($model, 'password_repeat')->passwordInput() ?>
             <?= $form->field($model, 'responsible')->checkbox() ?>
             <?= Html::submitButton('Создать аккаунт', ['class' => 'button button--blue']) ?>
