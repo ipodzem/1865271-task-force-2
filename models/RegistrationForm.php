@@ -6,7 +6,7 @@ use Yii;
 use yii\base\Exception;
 use yii\base\Model;
 use yii\helpers\Html;
-use Taskforce\services\Task as TaskService;
+use Taskforce\services\TaskInterface;
 
 /**
  * RegistrationForm is the model behind the registration form.
@@ -22,8 +22,6 @@ class RegistrationForm extends Model
     public $password_field;
     public $password_repeat;
     public $responsible;
-
-    private $_user = false;
 
 
     /**
@@ -41,6 +39,8 @@ class RegistrationForm extends Model
                 'compareAttribute' => 'password_field',
                 'message' => "Пароли должны совпадать"
             ],
+            [['email'], 'email'],
+            [['email'], 'unique', 'targetClass' => User::class, 'targetAttribute' => 'email'],
 
         ];
     }
@@ -49,24 +49,19 @@ class RegistrationForm extends Model
      * Create new user
      * @return bool whether the user is saved in successfully
      */
-    public function register(): array
+    public function register(): bool
     {
-        $msg = '';
-        $success = false;
-        if ($this->validate()) {
-            $user = new User;
-            $user->type = $this->responsible ? TaskService::TYPE_EXECUTOR : TaskService::TYPE_CUSTOMER;
-            $user->load($this->attributes, '');
-            if ($user->validate() && $user->save()) {
-                $success = true;
-            } else {
-                $error = $user->getErrorSummary(true);
-                if ($error[0]) {
-                    $msg = $error[0];
-                }
-            }
+        if (!$this->validate()) {
+            return false;
         }
-        return ['msg' => $msg, 'success' => $success];
+        $user = new User;
+        $user->type = $this->responsible ? TaskInterface::TYPE_EXECUTOR : TaskInterface::TYPE_CUSTOMER;
+        $user->email = $this->email;
+        $user->name = $this->name;
+        $user->password_field = $this->password_field;
+        $user->city_id = $this->city_id;
+        $user->load($this->attributes, '');
+        return $user->save();
     }
 
     /**
@@ -89,6 +84,4 @@ class RegistrationForm extends Model
             'responsible' => 'я собираюсь откликаться на заказы'
         ];
     }
-
-
 }

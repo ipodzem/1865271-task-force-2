@@ -2,7 +2,6 @@
 
  use yii\widgets\ActiveForm;
  use yii\helpers\Html;
-use app\widgets\Alert;
 
 /* @var $model app/models/User;*/
 /* @var City[] $cities;*/
@@ -11,9 +10,8 @@ $this->title = 'TaskForce. Регистрация';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="center-block">
-    <?= Alert::widget() ?>
     <div class="registration-form regular-form">
-        <?php $form = ActiveForm::begin(['id' => 'signup-form', 'options' => ['class' => 'registration__form']]); ?>
+        <?php $form = ActiveForm::begin(['id' => 'signup-form', 'options' => ['class' => 'registration__form'], 'enableAjaxValidation' => true]); ?>
             <h3 class="head-main head-task">Регистрация нового пользователя</h3>
             <?= $form->field($model, 'name')->textInput() ?>
             <div class="half-wrapper">
