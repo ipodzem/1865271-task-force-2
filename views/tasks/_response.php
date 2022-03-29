@@ -14,12 +14,11 @@ use yii\helpers\Url;
         <div class="response-wrapper">
             <?php
             CustomHelper::renderScore($model->user->score); ?>
-            <p class="reviews"><?= $model->user->ratingsCnt ?></p>
+            <p class="reviews"><?= $model->user->ratingsCountLabel ?></p>
         </div>
         <p class="response-message">
             <?= $model->text ?>
         </p>
-
     </div>
     <div class="feedback-wrapper">
         <p class="info-text"><span class="current-time"><?= Yii::$app->formatter->asRelativeTime(

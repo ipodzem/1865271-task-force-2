@@ -1446,8 +1446,7 @@ form .has-error textarea:hover {
   font-family: Arial, sans-serif;
   font-size: 11px;
   color: #fa6400;
-  visibility: hidden;
-  min-height: 25px; }
+  visibility: hidden; }
 
 .location-icon {
   background-image: url("../img/location-icon.svg");
