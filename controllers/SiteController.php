@@ -83,10 +83,10 @@ class SiteController extends Controller
         if ($post) {
             if ($model->load($post) && $model->login()) {
                 return $this->redirect([Url::to(['tasks/index'])]);
-            } else {
-                $this->response->format = Response::FORMAT_JSON;
-                return ActiveForm::validate($model);
             }
+            $this->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($model);
+
         }
 
     }
